@@ -1,3 +1,4 @@
+package Game;
 
 public class UserInput {
 
@@ -11,6 +12,8 @@ public class UserInput {
                 return Command.SPACE;
             case 'q':
                 return Command.QUIT;
+            case 'i':
+                return Command.INFO;
             default:
                 return Command.NOTHING;
         }

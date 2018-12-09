@@ -1,3 +1,5 @@
+package Game;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,15 +13,9 @@ public class GameRenderer {
     private BufferedImage sceneImg;
     private BufferedImage missileImg;
     private Map map;
-    private Shooter shooter;
-    private ArrayList<Enemy> enemies;
-    private ArrayList<Missile> missiles;
 
-    public GameRenderer(Map map, Shooter shooter, ArrayList<Enemy> enemies, ArrayList<Missile> missiles) throws Exception {
+    public GameRenderer(Map map) throws Exception {
         this.map = map;
-        this.shooter = shooter;
-        this.enemies = enemies;
-        this.missiles = missiles;
 
         shooterImg = ImageIO.read(new FileInputStream("shooter.jpg"));
         enemyImg = ImageIO.read(new FileInputStream("enemy.jpg"));
@@ -27,21 +23,21 @@ public class GameRenderer {
         missileImg = ImageIO.read(new FileInputStream("missile.png"));
     }
 
-    void render(Graphics g) {
+    void render(Graphics g, GameObject shooter, ArrayList<GameObjectEnemy> enemies, ArrayList<GameObject> missiles) {
         for (int y = 0; y < map.getHeight(); y++) {
             for (int x = 0; x < map.getWidth(); x++) {
                 g.drawImage(sceneImg, 50 + x * 20, 50 + y * 20, 20, 20, null);
-                if (shooter.getShooterX() == x && shooter.getShooterY() == y) {
+                if (shooter.getObjectX() == x && shooter.getObjectY() == y) {
                     g.drawImage(shooterImg, 50 + x * 20, 50 + y * 20, 20, 20, null);
                 }
-                for (Enemy enemy : enemies) {
-                    if (enemy.getEnemyX() == x && enemy.getEnemyY() == y && enemy.getAlive()) {
+                for (GameObjectEnemy enemy : enemies) {
+                    if (enemy.getObjectX() == x && enemy.getObjectY() == y && enemy.getHealth()) {
                         g.drawImage(enemyImg, 50 + x * 20, 50 + y * 20, 20, 20, null);
                     }
                 }
                 if (missiles != null) {
-                    for (Missile missile : missiles) {
-                        if (missile.getMissileX() == x && missile.getMissileY() == y) {
+                    for (GameObject missile : missiles) {
+                        if (missile.getObjectX() == x && missile.getObjectY() == y) {
                             g.drawImage(missileImg, 50 + x * 20, 50 + y * 20, 20, 20, null);
                         }
                     }
